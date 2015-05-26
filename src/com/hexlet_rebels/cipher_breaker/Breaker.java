@@ -30,17 +30,27 @@ public class Breaker {
 	
 	public static String setDisplacement (char[] alphabet, String text, int displacement) {
 		
+		boolean upperCase = false;
+		
 		String newText = "";
 		char[] dividedText = text.toCharArray();
 		
 		for(char c : dividedText) {
 			int index = 0;
-			for(index = 0; index < alphabet.length; index ++)
-				if(c == alphabet[index])
+			for(index = 0; index < alphabet.length; index ++) {
+				if(c == alphabet[index]) {
 					break;
+				} else if(c == String.valueOf(alphabet[index]).toUpperCase().charAt(0)) {
+					upperCase = true;
+					break;
+				}
+			}
 			
 			int newIndex = (index + displacement) % alphabet.length;
-			newText += alphabet[newIndex];
+			if(!upperCase)
+				newText +=alphabet[newIndex];
+			else
+				newText += String.valueOf(alphabet[newIndex]).toUpperCase().charAt(0);
 		}
 		
 		return newText;
