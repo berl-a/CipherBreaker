@@ -8,11 +8,11 @@ import java.util.Scanner;
 
 public class VarHolder {
 	
-	ArrayList<String> languages;
-	HashMap<String, char[]> letters;
-	HashMap<String, double[]> fingerprints;
+	private static ArrayList<String> languages;
+	private static HashMap<String, char[]> letters;
+	private static HashMap<String, double[]> fingerprints;
 	
-	public void readFingerprintsFromFile(String url) {
+	public static void readFingerprintsFromFile(String url) {
 		File file = new File(url);
 		try {
 			Scanner s = new Scanner(file);
@@ -37,9 +37,9 @@ public class VarHolder {
 					for(int i = 0; i < fingerprints.length; i++)
 						doubleFingerprints[i] = Double.valueOf(fingerprints[i]);
 					
-					languages.add(language);
-					this.letters.put(language, charLetters);
-					this.fingerprints.put(language, doubleFingerprints);
+					getLanguages().add(language);
+					VarHolder.getLetters().put(language, charLetters);
+					VarHolder.getFingerprints().put(language, doubleFingerprints);
 				} catch (NullPointerException e) {
 					System.out.println("Wrong file format");
 				}
@@ -49,6 +49,30 @@ public class VarHolder {
 			e.printStackTrace();
 		}
 		
+	}
+
+	public static ArrayList<String> getLanguages() {
+		return languages;
+	}
+
+	public static void setLanguages(ArrayList<String> languages) {
+		VarHolder.languages = languages;
+	}
+
+	public static HashMap<String, char[]> getLetters() {
+		return letters;
+	}
+
+	public static void setLetters(HashMap<String, char[]> letters) {
+		VarHolder.letters = letters;
+	}
+
+	public static HashMap<String, double[]> getFingerprints() {
+		return fingerprints;
+	}
+
+	public static void setFingerprints(HashMap<String, double[]> fingerprints) {
+		VarHolder.fingerprints = fingerprints;
 	}
 	
 }
