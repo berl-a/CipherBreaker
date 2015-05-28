@@ -8,6 +8,10 @@ import java.util.Scanner;
 
 public class VarHolder {
 	
+	private static final String DEFAULT_TEXT_LANGUAGE = "English";
+
+	private static String currentLanguage = DEFAULT_TEXT_LANGUAGE;
+	
 	private static ArrayList<String> languages;
 	private static HashMap<String, char[]> letters;
 	private static HashMap<String, double[]> fingerprints;
@@ -73,6 +77,14 @@ public class VarHolder {
 
 	public static void setFingerprints(HashMap<String, double[]> fingerprints) {
 		VarHolder.fingerprints = fingerprints;
+	}
+
+	public static String getCurrentLanguage() {
+		return currentLanguage;
+	}
+
+	public static void setCurrentLanguage(String currentLanguage) {
+		VarHolder.currentLanguage = currentLanguage;
 	}
 	
 }

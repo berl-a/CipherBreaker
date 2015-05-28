@@ -65,4 +65,12 @@ public class Util {
 		
 	}
 	
+	public static int findCharInArray (char[] letters, char letter) {
+		int i;
+		for(i = 0; i < letters.length; i ++)
+			if(letters[i] == letter)
+				break;
+		return i;
+	}
+	
 }
