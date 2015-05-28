@@ -1,9 +1,14 @@
 package com.hexlet_rebels.cipher_breaker;
 
+import java.util.HashMap;
+
 public class Util {
 	
-	public static int getDisplacement (double[] langFingerprint, double[] textFingerprint) {
+	public static int[] getDisplacement (double[] langFingerprint, double[] textFingerprint, int numberOfPossibleDisplacements) {
 		if(langFingerprint.length == textFingerprint.length) {
+			
+			DifferenceComparator comparator = new DifferenceComparator();
+			HashMap<Integer, Double> displacements = new HashMap<Integer, Double>();
 			
 			double minGlobalDifference = 0, maxLocalDifference = 0;
 			int displacementForMinGlobalDifference = 0;
@@ -24,7 +29,7 @@ public class Util {
 			return displacementForMinGlobalDifference;
 			
 		} else {
-			return Integer.MIN_VALUE;
+			return new int[]{Integer.MIN_VALUE};
 		}
 	}
 	
@@ -71,6 +76,18 @@ public class Util {
 			if(letters[i] == letter)
 				break;
 		return i;
+	}
+	
+	public static int[] sortNumbers (int[] numbers) {
+		
+		//TODO Remove default return
+		return null;
+	}
+	
+	private static HashMap<Integer, Double> sortHashMap (HashMap<Integer, Double> map) {
+		
+		//TODO remove default return
+		return null;
 	}
 	
 }
