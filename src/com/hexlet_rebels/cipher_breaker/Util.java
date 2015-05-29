@@ -1,17 +1,18 @@
 package com.hexlet_rebels.cipher_breaker;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 
 public class Util {
 	
-	public static int[] getDisplacement (double[] langFingerprint, double[] textFingerprint, int numberOfPossibleDisplacements) {
+	public static Integer[] getDisplacement (double[] langFingerprint, double[] textFingerprint, int numberOfPossibleDisplacements) {
 		if(langFingerprint.length == textFingerprint.length) {
 			
-			DifferenceComparator comparator = new DifferenceComparator();
-			HashMap<Integer, Double> displacements = new HashMap<Integer, Double>();
+			HashMap<Double, Integer> displacements = new HashMap<Double, Integer>();
 			
 			double minGlobalDifference = 0, maxLocalDifference = 0;
-			int displacementForMinGlobalDifference = 0;
+//			int displacementForMinGlobalDifference = 0;
 			
 			for(int displacement = 0; displacement < langFingerprint.length; displacement ++) {
 				maxLocalDifference = 0;
@@ -22,14 +23,15 @@ public class Util {
 				}
 				if(maxLocalDifference < minGlobalDifference) {
 					minGlobalDifference = maxLocalDifference;
-					displacementForMinGlobalDifference = displacement;
+//					displacementForMinGlobalDifference = displacement;
 				}
 			}
 			
-			return displacementForMinGlobalDifference;
+			
+			return displacements.keySet().toArray(new Integer[displacements.keySet().size()]);
 			
 		} else {
-			return new int[]{Integer.MIN_VALUE};
+			return new Integer[]{Integer.MIN_VALUE};
 		}
 	}
 	
@@ -84,10 +86,25 @@ public class Util {
 		return null;
 	}
 	
-	private static HashMap<Integer, Double> sortHashMap (HashMap<Integer, Double> map) {
+	//TODO make method private
+	public static HashMap<Double, Integer> sortHashMap (HashMap<Double, Integer> map) {
 		
-		//TODO remove default return
-		return null;
+		ArrayList<Double> keys = new ArrayList<Double>(map.keySet());
+		keys.sort(new Comparator<Double> () {
+			@Override
+			public int compare(Double o1, Double o2) {
+				if (o1 > o2) return 1;
+				else if (o1 == o2) return 0;
+				else return -1;
+			}
+		});
+		
+		HashMap<Double, Integer> sortedMap = new HashMap<Double, Integer>();
+		for(Double key : keys)
+			sortedMap.put(key, map.get(key));
+		
+		
+		return sortedMap;
 	}
 	
 }

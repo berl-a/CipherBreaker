@@ -24,7 +24,8 @@ public class Breaker {
 		for(double d : textFingerprint)
 			d = d / textChars.length;
 		
-		int displacement = Util.getDisplacement(VarHolder.getFingerprints().get(VarHolder.getCurrentLanguage()), textFingerprint);
+		//getting only one displacement out of many possible displacements
+		int displacement = Util.getDisplacement(VarHolder.getFingerprints().get(VarHolder.getCurrentLanguage()), textFingerprint, 1)[0];
 		
 		return Util.setDisplacement(alphabet, text, -displacement);
 	}
