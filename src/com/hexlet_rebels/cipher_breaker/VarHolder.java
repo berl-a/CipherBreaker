@@ -12,9 +12,9 @@ public class VarHolder {
 
 	private static String currentLanguage = DEFAULT_TEXT_LANGUAGE;
 	
-	private static ArrayList<String> languages;
-	private static HashMap<String, char[]> letters;
-	private static HashMap<String, double[]> fingerprints;
+	private static ArrayList<String> languages = new ArrayList<String>();
+	private static HashMap<String, char[]> letters = new HashMap<String, char[]>();
+	private static HashMap<String, double[]> fingerprints = new HashMap<String, double[]>();
 	
 	public static void readFingerprintsFromFile(String url) {
 		File file = new File(url);
@@ -32,16 +32,14 @@ public class VarHolder {
 					language = s.nextLine();
 					letters = s.nextLine().split(" ");
 					fingerprints = s.nextLine().split(" ");
-					
 					charLetters = new char[letters.length];
 					for(int i = 0; i < letters.length; i++)
 						charLetters[i] = String.valueOf(letters[i]).toCharArray()[0];
-					
 					doubleFingerprints = new double[fingerprints.length];
 					for(int i = 0; i < fingerprints.length; i++)
 						doubleFingerprints[i] = Double.valueOf(fingerprints[i]);
-					
 					getLanguages().add(language);
+					System.out.println(language);
 					VarHolder.getLetters().put(language, charLetters);
 					VarHolder.getFingerprints().put(language, doubleFingerprints);
 				} catch (NullPointerException e) {
@@ -64,7 +62,7 @@ public class VarHolder {
 	}
 
 	public static HashMap<String, char[]> getLetters() {
-		return letters;
+		return VarHolder.letters;
 	}
 
 	public static void setLetters(HashMap<String, char[]> letters) {

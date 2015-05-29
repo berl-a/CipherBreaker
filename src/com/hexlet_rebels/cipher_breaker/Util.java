@@ -1,18 +1,19 @@
 package com.hexlet_rebels.cipher_breaker;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 
 public class Util {
 	
 	public static Integer[] getDisplacement (double[] langFingerprint, double[] textFingerprint, int numberOfPossibleDisplacements) {
 		if(langFingerprint.length == textFingerprint.length) {
 			
-			HashMap<Double, Integer> displacements = new HashMap<Double, Integer>();
+			LinkedHashMap<Double, Integer> displacements = new LinkedHashMap<Double, Integer>();
 			
-			double minGlobalDifference = 0, maxLocalDifference = 0;
-//			int displacementForMinGlobalDifference = 0;
+			double maxLocalDifference = 0;
 			
 			for(int displacement = 0; displacement < langFingerprint.length; displacement ++) {
 				maxLocalDifference = 0;
@@ -21,22 +22,28 @@ public class Util {
 						maxLocalDifference = Math.abs(textFingerprint[(i + displacement) % textFingerprint.length] - langFingerprint[i]);
 					}
 				}
-				if(maxLocalDifference < minGlobalDifference) {
-					minGlobalDifference = maxLocalDifference;
-//					displacementForMinGlobalDifference = displacement;
-				}
+				displacements.put(maxLocalDifference, displacement);
 			}
 			
+			displacements = sortHashMap(displacements);
 			
-			return displacements.keySet().toArray(new Integer[displacements.keySet().size()]);
+			LinkedList<Integer> displacementsList = new LinkedList<Integer> (displacements.values());
+			Object[] disArr = displacementsList.toArray();
+			Integer[] displacementsArray = new Integer[disArr.length];
+			for(int i = 0; i < disArr.length; i ++) {
+				displacementsArray[i] = (Integer) disArr[i];
+			}
+//			Integer[] displacementsArray = (Integer[]) displacementsList.toArray();
 			
+			return Arrays.copyOf(displacementsArray, numberOfPossibleDisplacements);
 		} else {
 			return new Integer[]{Integer.MIN_VALUE};
 		}
 	}
 	
 	public static String setDisplacement (char[] alphabet, String text, int displacement) {
-		
+		displacement = alphabet.length - 1 + displacement;
+		System.out.println("inside");
 		boolean upperCase = false;
 		
 		String newText = "";
@@ -48,6 +55,7 @@ public class Util {
 				if(letter == String.valueOf(c).toLowerCase().toCharArray()[0])
 					isLetter = true;
 			if(isLetter) {
+				//TODO problematic place
 				int index = 0;
 				for(index = 0; index < alphabet.length; index ++) {
 					if(c == alphabet[index]) {
@@ -57,7 +65,7 @@ public class Util {
 						break;
 					}
 				}
-				
+				System.out.println("new index = " + ((index + displacement) % alphabet.length));
 				int newIndex = (index + displacement) % alphabet.length;
 				if(!upperCase)
 					newText += alphabet[newIndex];
@@ -80,14 +88,8 @@ public class Util {
 		return i;
 	}
 	
-	public static int[] sortNumbers (int[] numbers) {
-		
-		//TODO Remove default return
-		return null;
-	}
-	
 	//TODO make method private
-	public static HashMap<Double, Integer> sortHashMap (HashMap<Double, Integer> map) {
+	public static LinkedHashMap<Double, Integer> sortHashMap (LinkedHashMap<Double, Integer> map) {
 		
 		ArrayList<Double> keys = new ArrayList<Double>(map.keySet());
 		keys.sort(new Comparator<Double> () {
@@ -98,12 +100,11 @@ public class Util {
 				else return -1;
 			}
 		});
-		
-		HashMap<Double, Integer> sortedMap = new HashMap<Double, Integer>();
-		for(Double key : keys)
+		LinkedHashMap<Double, Integer> sortedMap = new LinkedHashMap<Double, Integer>();
+		for(Double key : keys) {
+			System.out.println(key);
 			sortedMap.put(key, map.get(key));
-		
-		
+		}
 		return sortedMap;
 	}
 	

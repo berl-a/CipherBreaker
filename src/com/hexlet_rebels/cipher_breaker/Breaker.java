@@ -1,20 +1,23 @@
 package com.hexlet_rebels.cipher_breaker;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 
 public class Breaker {
 	
 	public static String decryptCaesarCipher (String text) {
 		
 		//TODO move to starter method
-		VarHolder.readFingerprintsFromFile("res/fingerprints");
+//		VarHolder.readFingerprintsFromFile("res/fingerprints");
 		
-		char[] alphabet = VarHolder.getLetters().get(VarHolder.getCurrentLanguage());
+		LinkedList<char[]> list = new LinkedList<char[]>(VarHolder.getLetters().values());
+		LinkedList<double[]> list1 = new LinkedList<double[]>(VarHolder.getFingerprints().values());
+		char[] alphabet = list.get(0);
 		double[] textFingerprint = new double[alphabet.length];
 		
-		for(double d : textFingerprint)
-			d = 0;
-		
+		for(int i = 0; i < alphabet.length; i ++) {
+			textFingerprint[i] = 1;
+		}
 		char[] textChars = text.toCharArray();
 		
 		for(char c : textChars) {
@@ -25,7 +28,7 @@ public class Breaker {
 			d = d / textChars.length;
 		
 		//getting only one displacement out of many possible displacements
-		int displacement = Util.getDisplacement(VarHolder.getFingerprints().get(VarHolder.getCurrentLanguage()), textFingerprint, 1)[0];
+		int displacement = Util.getDisplacement(list1.get(0), textFingerprint, 1)[0];
 		
 		return Util.setDisplacement(alphabet, text, -displacement);
 	}
