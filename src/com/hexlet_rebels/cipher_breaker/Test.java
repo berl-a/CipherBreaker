@@ -12,7 +12,7 @@ public class Test {
 		String text = s.nextLine();
 		//Language fingerprint has to be full
 		
-		text = Util.setDisplacement(list.get(0), text, 1);
+		text = Util.setDisplacement(list.get(0), text, 40);
 		System.out.println(Breaker.decryptCaesarCipher(text));
 		s.close();
 		

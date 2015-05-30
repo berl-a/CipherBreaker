@@ -35,8 +35,11 @@ public class Breaker {
 			d = d / textChars.length;
 		
 		//getting only one displacement out of many possible displacements
-		int displacement = Util.getDisplacement(list1.get(0), textFingerprint, 1)[0];
+		for(int i = 0; i < 10; i ++)
+			System.out.println(Util.getDisplacement(list1.get(0), textFingerprint, 10)[i]);
 		
+		int displacement = Util.getDisplacement(list1.get(0), textFingerprint, 10)[0];
+		System.out.println("I've counted the displacement: " + displacement);
 		return Util.setDisplacement(alphabet, text, -displacement);
 	}
 	

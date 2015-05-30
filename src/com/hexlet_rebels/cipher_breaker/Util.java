@@ -41,6 +41,7 @@ public class Util {
 	}
 	
 	public static String setDisplacement (char[] alphabet, String text, int displacement) {
+		System.out.println("have to set displacement = " + displacement);
 		displacement = alphabet.length - 1 + displacement;
 		boolean upperCase;
 		
@@ -57,7 +58,7 @@ public class Util {
 						upperCase = true;
 					}
 				}
-				int newIndex = (index + displacement) % alphabet.length;
+				int newIndex = (index + displacement) % (alphabet.length - 1);
 				if(!upperCase)
 					newText += alphabet[newIndex];
 				else
@@ -88,8 +89,7 @@ public class Util {
 		return new int[]{(found ? i : -1), (upperCase ? 1 : 0)};
 	}
 	
-	//TODO make method private
-	public static LinkedHashMap<Double, Integer> sortHashMap (LinkedHashMap<Double, Integer> map) {
+	private static LinkedHashMap<Double, Integer> sortHashMap (LinkedHashMap<Double, Integer> map) {
 		
 		ArrayList<Double> keys = new ArrayList<Double>(map.keySet());
 		keys.sort(new Comparator<Double> () {
