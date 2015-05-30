@@ -20,8 +20,15 @@ public class Breaker {
 		}
 		char[] textChars = text.toCharArray();
 		
+		int index;
 		for(char c : textChars) {
-			textFingerprint[Util.findCharInArray(alphabet, c)] += 1;
+			if((index = Util.findCharInArray(alphabet, c)[0]) != -1) {
+				try {
+					textFingerprint[index] += 1;
+				} catch (Exception e) {
+					System.err.println("err: " + c);
+				}
+			}
 		}
 		
 		for(double d : textFingerprint)

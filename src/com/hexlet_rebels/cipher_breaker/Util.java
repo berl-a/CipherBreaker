@@ -33,7 +33,6 @@ public class Util {
 			for(int i = 0; i < disArr.length; i ++) {
 				displacementsArray[i] = (Integer) disArr[i];
 			}
-//			Integer[] displacementsArray = (Integer[]) displacementsList.toArray();
 			
 			return Arrays.copyOf(displacementsArray, numberOfPossibleDisplacements);
 		} else {
@@ -43,29 +42,21 @@ public class Util {
 	
 	public static String setDisplacement (char[] alphabet, String text, int displacement) {
 		displacement = alphabet.length - 1 + displacement;
-		System.out.println("inside");
-		boolean upperCase = false;
+		boolean upperCase;
 		
 		String newText = "";
 		char[] dividedText = text.toCharArray();
 		
 		for(char c : dividedText) {
-			boolean isLetter = false;
-			for(char letter : alphabet)
-				if(letter == String.valueOf(c).toLowerCase().toCharArray()[0])
-					isLetter = true;
+			upperCase = false;
+			boolean isLetter = findCharInArray(alphabet, c)[0] != -1 ? true : false;
 			if(isLetter) {
-				//TODO problematic place
-				int index = 0;
-				for(index = 0; index < alphabet.length; index ++) {
-					if(c == alphabet[index]) {
-						break;
-					} else if(c == String.valueOf(alphabet[index]).toUpperCase().charAt(0)) {
+				int index = findCharInArray(alphabet, c)[0];
+				if(index != -1) {
+					if(findCharInArray(alphabet, c)[1] == 1) {
 						upperCase = true;
-						break;
 					}
 				}
-				System.out.println("new index = " + ((index + displacement) % alphabet.length));
 				int newIndex = (index + displacement) % alphabet.length;
 				if(!upperCase)
 					newText += alphabet[newIndex];
@@ -80,12 +71,21 @@ public class Util {
 		
 	}
 	
-	public static int findCharInArray (char[] letters, char letter) {
+	public static int[] findCharInArray (char[] letters, char letter) {
 		int i;
+		boolean found = false;
+		boolean upperCase = false;
 		for(i = 0; i < letters.length; i ++)
-			if(letters[i] == letter)
+			if(letters[i] == letter) {
+				found = true;
+				upperCase = false;
 				break;
-		return i;
+			} else if(String.valueOf(letters[i]).toUpperCase().charAt(0) == letter) {
+				found = true;
+				upperCase = true; 
+				break;
+			}
+		return new int[]{(found ? i : -1), (upperCase ? 1 : 0)};
 	}
 	
 	//TODO make method private
@@ -102,7 +102,6 @@ public class Util {
 		});
 		LinkedHashMap<Double, Integer> sortedMap = new LinkedHashMap<Double, Integer>();
 		for(Double key : keys) {
-			System.out.println(key);
 			sortedMap.put(key, map.get(key));
 		}
 		return sortedMap;

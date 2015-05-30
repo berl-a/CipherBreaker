@@ -39,7 +39,6 @@ public class VarHolder {
 					for(int i = 0; i < fingerprints.length; i++)
 						doubleFingerprints[i] = Double.valueOf(fingerprints[i]);
 					getLanguages().add(language);
-					System.out.println(language);
 					VarHolder.getLetters().put(language, charLetters);
 					VarHolder.getFingerprints().put(language, doubleFingerprints);
 				} catch (NullPointerException e) {
