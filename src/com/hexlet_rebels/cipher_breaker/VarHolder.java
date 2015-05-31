@@ -13,8 +13,8 @@ public class VarHolder {
 	private static String currentLanguage = DEFAULT_TEXT_LANGUAGE;
 	
 	private static ArrayList<String> languages = new ArrayList<String>();
-	private static HashMap<String, char[]> letters = new HashMap<String, char[]>();
-	private static HashMap<String, double[]> fingerprints = new HashMap<String, double[]>();
+	private static ArrayList<char[]> alphabets = new ArrayList<char[]>();
+	private static ArrayList<double[]> fingerprints = new ArrayList<double[]>();
 	
 	public static void readFingerprintsFromFile(String url) {
 		File file = new File(url);
@@ -39,8 +39,8 @@ public class VarHolder {
 					for(int i = 0; i < fingerprints.length; i++)
 						doubleFingerprints[i] = Double.valueOf(fingerprints[i]);
 					getLanguages().add(language);
-					VarHolder.getLetters().put(language, charLetters);
-					VarHolder.getFingerprints().put(language, doubleFingerprints);
+					VarHolder.getAlphabets().add(charLetters);
+					VarHolder.getFingerprints().add(doubleFingerprints);
 				} catch (NullPointerException e) {
 					System.out.println("Wrong file format");
 				}
@@ -60,28 +60,35 @@ public class VarHolder {
 		VarHolder.languages = languages;
 	}
 
-	public static HashMap<String, char[]> getLetters() {
-		return VarHolder.letters;
-	}
-
-	public static void setLetters(HashMap<String, char[]> letters) {
-		VarHolder.letters = letters;
-	}
-
-	public static HashMap<String, double[]> getFingerprints() {
-		return fingerprints;
-	}
-
-	public static void setFingerprints(HashMap<String, double[]> fingerprints) {
-		VarHolder.fingerprints = fingerprints;
-	}
-
 	public static String getCurrentLanguage() {
-		return currentLanguage;
+		return VarHolder.currentLanguage;
 	}
 
 	public static void setCurrentLanguage(String currentLanguage) {
 		VarHolder.currentLanguage = currentLanguage;
+	}
+
+	public static ArrayList<char[]> getAlphabets() {
+		return alphabets;
+	}
+	public static char[] getCurrentAlphabet() {
+		return getAlphabets().get(getLanguages().indexOf(getCurrentLanguage()));
+	}
+
+	public static void setAlphabets(ArrayList<char[]> alphabets) {
+		VarHolder.alphabets = alphabets;
+	}
+
+	public static ArrayList<double[]> getFingerprints() {
+		return fingerprints;
+	}
+	
+	public static double[] getCurrentFingerprint() {
+		return getFingerprints().get(getLanguages().indexOf(getCurrentLanguage()));
+	}
+
+	public static void setFingerprints(ArrayList<double[]> fingerprints) {
+		VarHolder.fingerprints = fingerprints;
 	}
 	
 }

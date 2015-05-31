@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
+import java.util.List;
 
 public class Util {
 	
@@ -41,7 +42,6 @@ public class Util {
 	}
 	
 	public static String setDisplacement (char[] alphabet, String text, int displacement) {
-		System.out.println("have to set displacement = " + displacement);
 		displacement = alphabet.length - 1 + displacement;
 		boolean upperCase;
 		

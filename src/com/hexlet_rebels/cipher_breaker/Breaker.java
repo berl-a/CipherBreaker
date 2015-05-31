@@ -10,9 +10,7 @@ public class Breaker {
 		//TODO move to starter method
 //		VarHolder.readFingerprintsFromFile("res/fingerprints");
 		
-		LinkedList<char[]> list = new LinkedList<char[]>(VarHolder.getLetters().values());
-		LinkedList<double[]> list1 = new LinkedList<double[]>(VarHolder.getFingerprints().values());
-		char[] alphabet = list.get(0);
+		char[] alphabet = VarHolder.getCurrentAlphabet();
 		double[] textFingerprint = new double[alphabet.length];
 		
 		for(int i = 0; i < alphabet.length; i ++) {
@@ -35,11 +33,8 @@ public class Breaker {
 			d = d / textChars.length;
 		
 		//getting only one displacement out of many possible displacements
-		for(int i = 0; i < 10; i ++)
-			System.out.println(Util.getDisplacement(list1.get(0), textFingerprint, 10)[i]);
 		
-		int displacement = Util.getDisplacement(list1.get(0), textFingerprint, 10)[0];
-		System.out.println("I've counted the displacement: " + displacement);
+		int displacement = Util.getDisplacement(VarHolder.getCurrentFingerprint(), textFingerprint, 10)[0];
 		return Util.setDisplacement(alphabet, text, -displacement);
 	}
 	

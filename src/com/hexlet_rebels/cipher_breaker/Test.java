@@ -7,12 +7,11 @@ public class Test {
 
 	public static void main(String[] args) {
 		VarHolder.readFingerprintsFromFile("res/fingerprints");
-		LinkedList<char[]> list = new LinkedList<char[]>(VarHolder.getLetters().values());
 		Scanner s = new Scanner(System.in);
 		String text = s.nextLine();
-		//Language fingerprint has to be full
 		
-		text = Util.setDisplacement(list.get(0), text, 40);
+		//Language fingerprint has to be full
+		text = Util.setDisplacement(VarHolder.getCurrentAlphabet(), text, 40);
 		System.out.println(Breaker.decryptCaesarCipher(text));
 		s.close();
 		
