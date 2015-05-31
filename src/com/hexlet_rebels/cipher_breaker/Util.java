@@ -14,16 +14,14 @@ public class Util {
 			
 			LinkedHashMap<Double, Integer> displacements = new LinkedHashMap<Double, Integer>();
 			
-			double maxLocalDifference = 0;
+			double localDifference = 0;
 			
 			for(int displacement = 0; displacement < langFingerprint.length; displacement ++) {
-				maxLocalDifference = 0;
+				localDifference = 0;
 				for(int i = 0; i < langFingerprint.length; i++) {
-					if(Math.abs(textFingerprint[(i + displacement) % textFingerprint.length] - langFingerprint[i]) > maxLocalDifference) {
-						maxLocalDifference = Math.abs(textFingerprint[(i + displacement) % textFingerprint.length] - langFingerprint[i]);
-					}
+					localDifference += Math.abs(textFingerprint[(i + displacement) % textFingerprint.length] - langFingerprint[i]);
 				}
-				displacements.put(maxLocalDifference, displacement);
+				displacements.put(localDifference, displacement);
 			}
 			
 			displacements = sortHashMap(displacements);
