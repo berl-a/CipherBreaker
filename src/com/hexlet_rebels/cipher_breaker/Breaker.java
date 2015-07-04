@@ -38,4 +38,8 @@ public class Breaker {
 		return Util.setDisplacement(alphabet, text, -displacement);
 	}
 	
+	public void encryptByPolyalphabeticCipher (String text, String key) {
+		
+	}
+	
 }
