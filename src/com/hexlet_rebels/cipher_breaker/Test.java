@@ -1,6 +1,5 @@
 package com.hexlet_rebels.cipher_breaker;
 
-import java.util.LinkedList;
 import java.util.Scanner;
 
 public class Test {
@@ -11,8 +10,9 @@ public class Test {
 		String text = s.nextLine();
 		
 		//Language fingerprint has to be full
-		text = Util.setDisplacement(VarHolder.getCurrentAlphabet(), text, 40);
-		System.out.println(Breaker.decryptCaesarCipher(text));
+//		text = Util.setDisplacement(VarHolder.getCurrentAlphabet(), text, 40);
+//		System.out.println(Breaker.decryptCaesarCipher(text));
+		System.out.println(Breaker.encryptByPolyalphabeticCipher(text, "asdfsadfsdf"));
 		s.close();
 		
 	}
