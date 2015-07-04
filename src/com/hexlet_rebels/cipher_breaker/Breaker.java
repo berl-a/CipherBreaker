@@ -25,6 +25,10 @@ public class Breaker {
 		}
 	}
 	
+	public static String encryptByCaesarCipher (String text, int displacement) {
+		return Util.setDisplacement(text, displacement);
+	}
+	
 	public static String decryptPolyalphabeticCipher (String text) {
 		char[] textChars = text.toCharArray();
 		
