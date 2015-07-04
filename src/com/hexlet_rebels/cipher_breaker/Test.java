@@ -5,14 +5,15 @@ import java.util.Scanner;
 public class Test {
 
 	public static void main(String[] args) {
+		//TODO move to starter method
 		VarHolder.readFingerprintsFromFile("res/fingerprints");
 		Scanner s = new Scanner(System.in);
 		String text = s.nextLine();
 		
 		//Language fingerprint has to be full
-//		text = Util.setDisplacement(VarHolder.getCurrentAlphabet(), text, 40);
-//		System.out.println(Breaker.decryptCaesarCipher(text));
-		System.out.println(Breaker.encryptByPolyalphabeticCipher(text, "asdfsadfsdf"));
+		text = Breaker.encryptByPolyalphabeticCipher(text, "a");
+		System.out.println(text);
+		System.out.println(Breaker.decryptPolyalphabeticCipher(text));
 		s.close();
 		
 	}

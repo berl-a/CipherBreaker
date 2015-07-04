@@ -9,37 +9,54 @@ import java.util.List;
 
 public class Util {
 	
-	public static Integer[] getDisplacement (double[] langFingerprint, double[] textFingerprint, int numberOfPossibleDisplacements) {
+	protected static double[] getTextFingerprint(String text) {
+		char[] alphabet = VarHolder.getCurrentAlphabet();
+		double[] textFingerprint = new double[alphabet.length];
+		
+		for(int i = 0; i < alphabet.length; i ++) {
+			textFingerprint[i] = 1;
+		}
+		char[] textChars = text.toCharArray();
+		
+		int index;
+		for(char c : textChars)
+			if((index = Util.findCharInArray(alphabet, c)[0]) != -1)
+				textFingerprint[index] += 1;
+		
+		for(double d : textFingerprint)
+			d = d / textChars.length;
+		return textFingerprint;
+	}
+	
+	protected static LinkedHashMap<Integer[], Double> getDisplacement (double[] langFingerprint, double[] textFingerprint, int numberOfPossibleDisplacements) {
 		if(langFingerprint.length == textFingerprint.length) {
 			
-			LinkedHashMap<Double, Integer> displacements = new LinkedHashMap<Double, Integer>();
+			LinkedHashMap<Double, Integer> displacementsMap = new LinkedHashMap<Double, Integer>();
 			
-			double localDifference = 0;
-			
+			double difference;
 			for(int displacement = 0; displacement < langFingerprint.length; displacement ++) {
-				localDifference = 0;
+				difference = 0;
 				for(int i = 0; i < langFingerprint.length; i++) {
-					localDifference += Math.abs(textFingerprint[(i + displacement) % textFingerprint.length] - langFingerprint[i]);
+					if(Math.abs(textFingerprint[(i + displacement) % textFingerprint.length] - langFingerprint[i]) > difference)
+						difference = Math.abs(textFingerprint[(i + displacement) % textFingerprint.length] - langFingerprint[i]);
 				}
-				displacements.put(localDifference, displacement);
+				displacementsMap.put(difference, displacement);
 			}
 			
-			displacements = sortHashMap(displacements);
+			Integer[] sortedArrayOfDisplacements = getValues(sortMapByKeys(displacementsMap));
 			
-			LinkedList<Integer> displacementsList = new LinkedList<Integer> (displacements.values());
-			Object[] disArr = displacementsList.toArray();
-			Integer[] displacementsArray = new Integer[disArr.length];
-			for(int i = 0; i < disArr.length; i ++) {
-				displacementsArray[i] = (Integer) disArr[i];
-			}
 			
-			return Arrays.copyOf(displacementsArray, numberOfPossibleDisplacements);
+			LinkedHashMap<Integer[], Double> result = new LinkedHashMap<Integer[], Double>();
+			result.put(numberOfPossibleDisplacements != Integer.MAX_VALUE ? Arrays.copyOf(sortedArrayOfDisplacements, numberOfPossibleDisplacements) : sortedArrayOfDisplacements, getKeyByValue(displacementsMap, sortedArrayOfDisplacements[0]));
+			
+			return result;
 		} else {
-			return new Integer[]{Integer.MIN_VALUE};
+			return null;
 		}
 	}
 	
-	public static String setDisplacement (char[] alphabet, String text, int displacement) {
+	public static String setDisplacement (String text, int displacement) {
+		char[] alphabet = VarHolder.getCurrentAlphabet();
 		displacement = alphabet.length - 1 + displacement;
 		boolean upperCase;
 		
@@ -87,10 +104,10 @@ public class Util {
 		return new int[]{(found ? i : -1), (upperCase ? 1 : 0)};
 	}
 	
-	private static LinkedHashMap<Double, Integer> sortHashMap (LinkedHashMap<Double, Integer> map) {
+	protected static LinkedHashMap<Double, Integer> sortMapByKeys (LinkedHashMap<Double, Integer> displacementsMap) {
 		
-		ArrayList<Double> keys = new ArrayList<Double>(map.keySet());
-		keys.sort(new Comparator<Double> () {
+		ArrayList<Double> errorRates = new ArrayList<Double>(displacementsMap.keySet());
+		errorRates.sort(new Comparator<Double> () {
 			@Override
 			public int compare(Double o1, Double o2) {
 				if (o1 > o2) return 1;
@@ -98,11 +115,29 @@ public class Util {
 				else return -1;
 			}
 		});
-		LinkedHashMap<Double, Integer> sortedMap = new LinkedHashMap<Double, Integer>();
-		for(Double key : keys) {
-			sortedMap.put(key, map.get(key));
+		LinkedHashMap<Double, Integer> sortedDisplacementsMap = new LinkedHashMap<Double, Integer>();
+		for(Double errorRate : errorRates) {
+			sortedDisplacementsMap.put(errorRate, displacementsMap.get(errorRate));
 		}
-		return sortedMap;
+		return sortedDisplacementsMap;
+	}
+	
+	protected static Integer[] getValues (LinkedHashMap<Double, Integer> map) {
+		LinkedList<Integer> sortedListOfDisplacements = new LinkedList<Integer> (map.values());
+		Object[] sortedArrayOfDisplacementsAsObjects = sortedListOfDisplacements.toArray();
+		
+		Integer[] sortedArrayOfDisplacements = new Integer[sortedArrayOfDisplacementsAsObjects.length];
+		for(int i = 0; i < sortedArrayOfDisplacementsAsObjects.length; i ++) {
+			sortedArrayOfDisplacements[i] = (Integer) sortedArrayOfDisplacementsAsObjects[i];
+		}
+		return sortedArrayOfDisplacements;
+	}
+	
+	protected static Double getKeyByValue (LinkedHashMap<Double, Integer> map, Integer value) {
+		for(Double key : map.keySet())
+			if(map.get(key) == value)
+				return key;
+		return Double.MIN_VALUE;
 	}
 	
 }
